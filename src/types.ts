@@ -10,24 +10,16 @@ export interface AppItem {
   name: string;
   category: AppCategory;
   description: string;
-  url: string; // Hardcoded destination URL (to be updated later via code as requested)
-  tag: string; // e.g. "Zoho application", "HR platform", "Made for Acceleron"
+  url: string;
+  tag: string;
   iconType: 'zoho-crm' | 'zoho-books' | 'darwinbox' | 'champ' | 'plus';
   accentColor?: string;
 }
 
 export interface RecentlyOpenedEntry {
   appId: string;
-  lastOpenedAt: number; // timestamp
+  lastOpenedAt: number;
   openCount: number;
 }
 
-export interface UserProfile {
-  name: string;
-  email: string;
-  role: string;
-  isGuest: boolean;
-  avatarLetter: string;
-}
-
-export type ViewTab = 'overview' | 'all' | 'favourites' | 'recent' | 'settings';
+export type ViewTab = 'overview' | 'all' | 'favourites' | 'recent';

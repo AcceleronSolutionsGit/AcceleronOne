@@ -1,14 +1,11 @@
 import React from 'react';
 import { ArrowRight, BarChart3, FileText, Users, Trophy, LayoutGrid, Sparkles } from 'lucide-react';
-import { useApp } from '../context/AppContext';
 
 interface HeroBannerProps {
   onScrollToApps?: () => void;
 }
 
 export const HeroBanner: React.FC<HeroBannerProps> = ({ onScrollToApps }) => {
-  const { userProfile } = useApp();
-
   return (
     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#162544] via-[#1c3058] to-[#111e38] text-white border border-[#273d6b] p-6 sm:p-7 shadow-sm">
       {/* Ambient background glow */}
@@ -16,19 +13,13 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ onScrollToApps }) => {
       <div className="absolute bottom-0 right-10 w-64 h-64 bg-red-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-        {/* Left Column: Headlines & Welcome */}
+        {/* Left Column: Headlines */}
         <div className="lg:col-span-7 space-y-3">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-md bg-white/10 border border-white/15 text-[10px] uppercase tracking-[0.18em] font-semibold text-slate-200">
             <span className="w-1.5 h-1.5 rounded-xs bg-[#e31b23]" />
             Your Gateway to Everything Acceleron
           </div>
-
-          {/* Personalized Greeting */}
-          <p className="text-[13px] text-slate-300 font-medium flex items-center gap-1.5">
-            Welcome back, <span className="font-semibold text-white">{userProfile.name}</span>
-            <span className="text-[#e31b23]">✦</span>
-          </p>
 
           {/* Hero Title */}
           <h1 className="text-2xl sm:text-[30px] font-bold text-white tracking-tight leading-tight">
@@ -92,7 +83,6 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({ onScrollToApps }) => {
 
           {/* Center Card with Acceleron Branding */}
           <div className="relative z-10 w-24 h-24 rounded-2xl bg-[#0f1a30] border border-white/20 shadow-xl flex flex-col items-center justify-center p-2.5 text-center transition-transform hover:scale-105 duration-200">
-            {/* Acceleron Chevron Mark */}
             <div className="w-9 h-9 rounded-xl bg-[#162544] border border-white/10 flex items-center justify-center mb-1 shadow-inner">
               <svg viewBox="0 0 40 40" className="w-5 h-5" fill="none">
                 <circle cx="20" cy="20" r="14" stroke="white" strokeWidth="3.5" fill="none" />

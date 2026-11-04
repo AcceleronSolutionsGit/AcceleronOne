@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import type { AppItem, RecentlyOpenedEntry, UserProfile, ViewTab } from '../types';
+import type { AppItem, RecentlyOpenedEntry, ViewTab } from '../types';
 import { INITIAL_APPS } from '../data/appsData';
 
 interface AppContextType {
@@ -10,8 +10,6 @@ interface AppContextType {
   searchQuery: string;
   selectedCategory: string;
   activeFilterTab: 'all' | 'favourites';
-  userProfile: UserProfile;
-  ssoEnabled: boolean;
   
   // Actions
   setActiveTab: (tab: ViewTab) => void;
@@ -22,8 +20,6 @@ interface AppContextType {
   isFavourite: (appId: string) => boolean;
   launchApp: (app: AppItem) => void;
   clearRecentApps: () => void;
-  updateUserProfile: (profile: Partial<UserProfile>) => void;
-  toggleSsoMode: () => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -31,16 +27,6 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 const STORAGE_KEYS = {
   FAVOURITES: 'acceleron_favourites',
   RECENTS: 'acceleron_recent_apps',
-  PROFILE: 'acceleron_user_profile',
-  SSO: 'acceleron_sso_preview',
-};
-
-const DEFAULT_USER: UserProfile = {
-  name: 'Arindam',
-  email: 'arindam@acceleron.com',
-  role: 'Team Member',
-  isGuest: true,
-  avatarLetter: 'A',
 };
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -73,25 +59,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   });
 
-  // User profile in browser localStorage
-  const [userProfile, setUserProfile] = useState<UserProfile>(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEYS.PROFILE);
-      return saved ? { ...DEFAULT_USER, ...JSON.parse(saved) } : DEFAULT_USER;
-    } catch {
-      return DEFAULT_USER;
-    }
-  });
-
-  // SSO preview mode
-  const [ssoEnabled, setSsoEnabled] = useState<boolean>(() => {
-    try {
-      return localStorage.getItem(STORAGE_KEYS.SSO) === 'true';
-    } catch {
-      return false;
-    }
-  });
-
   // Persist favourites
   useEffect(() => {
     try {
@@ -109,24 +76,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       console.warn('Failed to save recents to localStorage', e);
     }
   }, [recentApps]);
-
-  // Persist profile
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(userProfile));
-    } catch (e) {
-      console.warn('Failed to save profile to localStorage', e);
-    }
-  }, [userProfile]);
-
-  // Persist SSO preview setting
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEYS.SSO, String(ssoEnabled));
-    } catch (e) {
-      console.warn('Failed to save SSO setting', e);
-    }
-  }, [ssoEnabled]);
 
   const toggleFavourite = (appId: string) => {
     setFavourites(prev => 
@@ -162,20 +111,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     localStorage.removeItem(STORAGE_KEYS.RECENTS);
   };
 
-  const updateUserProfile = (profile: Partial<UserProfile>) => {
-    setUserProfile(prev => {
-      const updated = { ...prev, ...profile };
-      if (profile.name) {
-        updated.avatarLetter = profile.name.trim().charAt(0).toUpperCase() || 'A';
-      }
-      return updated;
-    });
-  };
-
-  const toggleSsoMode = () => {
-    setSsoEnabled(prev => !prev);
-  };
-
   return (
     <AppContext.Provider
       value={{
@@ -186,8 +121,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         searchQuery,
         selectedCategory,
         activeFilterTab,
-        userProfile,
-        ssoEnabled,
         setActiveTab,
         setSearchQuery,
         setSelectedCategory,
@@ -196,8 +129,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         isFavourite,
         launchApp,
         clearRecentApps,
-        updateUserProfile,
-        toggleSsoMode,
       }}
     >
       {children}

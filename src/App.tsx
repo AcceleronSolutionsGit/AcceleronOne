@@ -7,13 +7,10 @@ import { ApplicationsSection } from './components/ApplicationsSection';
 import { BottomBanner } from './components/BottomBanner';
 import { Footer } from './components/Footer';
 import { RecentlyOpenedView } from './components/RecentlyOpenedView';
-import { SettingsView } from './components/SettingsView';
-import { HelpModal } from './components/HelpModal';
 
 const MainLayout: React.FC = () => {
   const { activeTab } = useApp();
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-  const [helpModalOpen, setHelpModalOpen] = useState(false);
 
   const handleScrollToApps = () => {
     const el = document.getElementById('applications-section');
@@ -28,7 +25,6 @@ const MainLayout: React.FC = () => {
       <Sidebar 
         mobileOpen={mobileSidebarOpen} 
         setMobileOpen={setMobileSidebarOpen}
-        onOpenHelp={() => setHelpModalOpen(true)}
       />
 
       {/* Main Content Area */}
@@ -36,7 +32,6 @@ const MainLayout: React.FC = () => {
         {/* Header */}
         <Header 
           onOpenMobileSidebar={() => setMobileSidebarOpen(true)} 
-          onOpenHelp={() => setHelpModalOpen(true)}
         />
 
         {/* Dynamic Body Content */}
@@ -70,21 +65,8 @@ const MainLayout: React.FC = () => {
               <Footer />
             </div>
           )}
-
-          {activeTab === 'settings' && (
-            <div className="space-y-4">
-              <SettingsView />
-              <Footer />
-            </div>
-          )}
         </main>
       </div>
-
-      {/* Modals */}
-      <HelpModal 
-        isOpen={helpModalOpen} 
-        onClose={() => setHelpModalOpen(false)} 
-      />
     </div>
   );
 };

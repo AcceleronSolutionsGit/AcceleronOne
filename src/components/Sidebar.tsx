@@ -4,10 +4,7 @@ import {
   LayoutGrid, 
   Star, 
   Clock, 
-  HelpCircle, 
-  Settings, 
   Sparkles,
-  ExternalLink,
   X
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
@@ -17,10 +14,9 @@ import type { ViewTab } from '../types';
 interface SidebarProps {
   mobileOpen: boolean;
   setMobileOpen: (open: boolean) => void;
-  onOpenHelp: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, onOpenHelp }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) => {
   const { 
     activeTab, 
     setActiveTab, 
@@ -140,9 +136,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, onO
           </div>
         </div>
 
-        {/* Middle / Bottom Content */}
+        {/* Bottom Content */}
         <div className="space-y-3 pt-3">
-          {/* Motivation Box - Logo styled */}
+          {/* Motivation Box */}
           <div className="relative rounded-xl bg-gradient-to-br from-[#162544] to-[#1f335c] text-white p-3 overflow-hidden shadow-xs">
             <div className="pr-4 relative z-10">
               <p className="text-[11px] text-slate-300 font-normal leading-tight">One team.</p>
@@ -151,32 +147,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, onO
               </p>
             </div>
             <Sparkles className="w-3.5 h-3.5 text-[#e31b23] absolute top-2.5 right-2.5" />
-          </div>
-
-          {/* Utility links */}
-          <div className="space-y-0.5 border-t border-slate-100 pt-2.5">
-            <button
-              onClick={onOpenHelp}
-              className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-[12.5px] text-slate-600 hover:text-[#162544] hover:bg-slate-50 transition-colors"
-            >
-              <div className="flex items-center gap-2">
-                <HelpCircle className="w-3.5 h-3.5 text-slate-400" />
-                <span>Help & support</span>
-              </div>
-              <ExternalLink className="w-3 h-3 text-slate-400" />
-            </button>
-
-            <button
-              onClick={() => handleNavClick('settings')}
-              className={`w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12.5px] transition-colors ${
-                activeTab === 'settings' 
-                  ? 'bg-[#162544] text-white font-semibold' 
-                  : 'text-slate-600 hover:text-[#162544] hover:bg-slate-50'
-              }`}
-            >
-              <Settings className={`w-3.5 h-3.5 ${activeTab === 'settings' ? 'text-[#e31b23]' : 'text-slate-400'}`} />
-              <span>Workspace settings</span>
-            </button>
           </div>
 
           {/* Acceleron Solutions Brand Tagline */}
