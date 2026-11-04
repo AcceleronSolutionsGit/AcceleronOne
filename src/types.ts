@@ -10,11 +10,10 @@ export interface AppItem {
   name: string;
   category: AppCategory;
   description: string;
-  defaultUrl: string;
+  url: string; // Hardcoded destination URL (to be updated later via code as requested)
   tag: string; // e.g. "Zoho application", "HR platform", "Made for Acceleron"
   iconType: 'zoho-crm' | 'zoho-books' | 'darwinbox' | 'champ' | 'plus';
   accentColor?: string;
-  customizable?: boolean;
 }
 
 export interface RecentlyOpenedEntry {

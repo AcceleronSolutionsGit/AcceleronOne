@@ -1,12 +1,16 @@
 import type { AppItem } from '../types';
 
+/**
+ * Hardcoded application links configuration.
+ * URLs will be populated here when provided.
+ */
 export const INITIAL_APPS: AppItem[] = [
   {
     id: 'zoho-crm',
     name: 'Zoho CRM',
     category: 'SALES & CUSTOMERS',
     description: 'Build stronger relationships. Turn opportunities into lasting partnerships.',
-    defaultUrl: 'https://crm.zoho.com',
+    url: 'https://crm.zoho.com', // Replace with production URL when provided
     tag: 'Zoho application',
     iconType: 'zoho-crm',
     accentColor: '#f97316',
@@ -16,7 +20,7 @@ export const INITIAL_APPS: AppItem[] = [
     name: 'Zoho Books',
     category: 'FINANCE & ACCOUNTING',
     description: 'Keep your finances in focus. Manage invoices, expenses and accounting.',
-    defaultUrl: 'https://books.zoho.com',
+    url: 'https://books.zoho.com', // Replace with production URL when provided
     tag: 'Zoho application',
     iconType: 'zoho-books',
     accentColor: '#3b82f6',
@@ -26,7 +30,7 @@ export const INITIAL_APPS: AppItem[] = [
     name: 'Darwinbox HRMS',
     category: 'PEOPLE & CULTURE',
     description: 'Your people essentials, simplified. Attendance, leave and everything HR.',
-    defaultUrl: 'https://darwinbox.in',
+    url: 'https://darwinbox.in', // Replace with production URL when provided
     tag: 'HR platform',
     iconType: 'darwinbox',
     accentColor: '#8b5cf6',
@@ -36,20 +40,20 @@ export const INITIAL_APPS: AppItem[] = [
     name: 'Acceleron Champ',
     category: 'REWARDS & RECOGNITION',
     description: 'Celebrate the people who go further. Recognise great work, every day.',
-    defaultUrl: 'https://champ.acceleron.com',
+    url: 'https://champ.acceleron.com', // Replace with production URL when provided
     tag: 'Made for Acceleron',
     iconType: 'champ',
-    accentColor: '#f59e0b',
+    accentColor: '#e31b23',
   },
   {
     id: 'acceleronplus',
     name: 'Acceleronplus',
     category: 'PROJECTS & DELIVERY',
     description: 'Bring teams and projects together. Plan, collaborate and deliver with clarity.',
-    defaultUrl: 'https://plus.acceleron.com',
+    url: 'https://plus.acceleron.com', // Replace with production URL when provided
     tag: 'Made for Acceleron',
     iconType: 'plus',
-    accentColor: '#10b981',
+    accentColor: '#162544',
   },
 ];
 

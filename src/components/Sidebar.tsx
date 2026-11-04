@@ -11,7 +11,7 @@ import {
   X
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
-import { AcceleronMark } from './AppIcons';
+import { AcceleronLogoImage } from './AppIcons';
 import type { ViewTab } from '../types';
 
 interface SidebarProps {
@@ -65,28 +65,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, onO
       {/* Mobile overlay */}
       {mobileOpen && (
         <div 
-          className="fixed inset-0 bg-black/30 backdrop-blur-xs z-40 lg:hidden"
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-2xs z-40 lg:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
       <aside className={`
-        fixed lg:sticky top-0 left-0 z-50 h-screen w-64 bg-[#fbfbfa] border-r border-[#eaedea] flex flex-col justify-between p-5 transition-transform duration-200 ease-in-out
+        fixed lg:sticky top-0 left-0 z-50 h-screen w-60 bg-white border-r border-[#e2e8f0] flex flex-col justify-between p-4 transition-transform duration-200 ease-in-out shrink-0 select-none
         ${mobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'}
       `}>
         {/* Top: Logo & Brand */}
         <div>
-          <div className="flex items-center justify-between pb-7">
-            <div className="flex items-center gap-3">
-              <AcceleronMark size={38} />
-              <div className="flex flex-col">
-                <span className="font-bold text-[17px] tracking-tight text-[#162544] leading-tight">
-                  MyAcceleron
-                </span>
-                <span className="text-[8.5px] uppercase tracking-[0.14em] text-slate-400 font-semibold mt-0.5">
-                  Your Connected Workspace
-                </span>
-              </div>
+          <div className="flex items-center justify-between pb-5 border-b border-slate-100">
+            <div className="flex flex-col">
+              <AcceleronLogoImage height={32} />
+              <span className="text-[9px] uppercase tracking-[0.16em] text-slate-400 font-semibold mt-1.5 pl-0.5">
+                Connected Workspace
+              </span>
             </div>
 
             {/* Close button for mobile */}
@@ -94,17 +89,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, onO
               onClick={() => setMobileOpen(false)}
               className="lg:hidden p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
           {/* Navigation Section */}
-          <div className="mt-2">
-            <div className="text-[10px] uppercase font-bold tracking-[0.18em] text-slate-400 px-3 mb-2.5">
+          <div className="mt-4">
+            <div className="text-[9.5px] uppercase font-bold tracking-[0.18em] text-slate-400 px-2.5 mb-2">
               Workspace
             </div>
             
-            <nav className="space-y-1">
+            <nav className="space-y-0.5">
               {navItems.map((item) => {
                 const isActive = activeTab === item.id;
                 return (
@@ -112,30 +107,30 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, onO
                     key={item.id}
                     onClick={() => handleNavClick(item.id)}
                     className={`
-                      w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-[13.5px] font-medium transition-all group
+                      w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-[13px] font-medium transition-all group
                       ${isActive 
-                        ? 'bg-[#eaf2ec] text-[#1b3a2a] font-semibold' 
-                        : 'text-slate-600 hover:text-slate-900 hover:bg-[#f2f5f2]'
+                        ? 'bg-[#162544] text-white shadow-xs font-semibold' 
+                        : 'text-slate-600 hover:text-[#162544] hover:bg-[#edf2f8]'
                       }
                     `}
                   >
-                    <div className="flex items-center gap-3">
-                      <span className={`transition-colors ${isActive ? 'text-[#2e6848]' : 'text-slate-400 group-hover:text-slate-600'}`}>
+                    <div className="flex items-center gap-2.5">
+                      <span className={`transition-colors ${isActive ? 'text-[#e31b23]' : 'text-slate-400 group-hover:text-[#162544]'}`}>
                         {item.icon}
                       </span>
                       <span>{item.label}</span>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5">
                       {item.count !== undefined && (
-                        <span className={`text-[11px] px-1.5 py-0.5 rounded-md font-mono ${
-                          isActive ? 'text-[#2e6848] font-bold' : 'text-slate-400'
+                        <span className={`text-[10.5px] px-1.5 py-0.2 rounded-md font-mono ${
+                          isActive ? 'bg-white/20 text-white font-bold' : 'text-slate-400'
                         }`}>
                           {item.count}
                         </span>
                       )}
                       {isActive && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#2e6848]" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#e31b23]" />
                       )}
                     </div>
                   </button>
@@ -146,48 +141,50 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, onO
         </div>
 
         {/* Middle / Bottom Content */}
-        <div className="space-y-4 pt-4">
-          {/* Motivation Box */}
-          <div className="relative rounded-2xl bg-[#f2f6f3] border border-[#e2ece5] p-3.5 overflow-hidden">
-            <div className="pr-4">
-              <p className="text-[12px] text-slate-500 font-normal leading-tight">One team.</p>
-              <p className="text-[13px] text-[#1e382b] font-bold mt-0.5 leading-tight">Many possibilities.</p>
+        <div className="space-y-3 pt-3">
+          {/* Motivation Box - Logo styled */}
+          <div className="relative rounded-xl bg-gradient-to-br from-[#162544] to-[#1f335c] text-white p-3 overflow-hidden shadow-xs">
+            <div className="pr-4 relative z-10">
+              <p className="text-[11px] text-slate-300 font-normal leading-tight">One team.</p>
+              <p className="text-[12px] text-white font-bold mt-0.5 leading-tight flex items-center gap-1">
+                <span>Many possibilities.</span>
+              </p>
             </div>
-            <Sparkles className="w-4 h-4 text-[#4a8a65] absolute top-3 right-3 opacity-80" />
+            <Sparkles className="w-3.5 h-3.5 text-[#e31b23] absolute top-2.5 right-2.5" />
           </div>
 
           {/* Utility links */}
-          <div className="space-y-0.5 border-t border-[#eaedea] pt-3">
+          <div className="space-y-0.5 border-t border-slate-100 pt-2.5">
             <button
               onClick={onOpenHelp}
-              className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-[13px] text-slate-600 hover:text-slate-900 hover:bg-[#f2f5f2] transition-colors"
+              className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-[12.5px] text-slate-600 hover:text-[#162544] hover:bg-slate-50 transition-colors"
             >
-              <div className="flex items-center gap-2.5">
-                <HelpCircle className="w-4 h-4 text-slate-400" />
+              <div className="flex items-center gap-2">
+                <HelpCircle className="w-3.5 h-3.5 text-slate-400" />
                 <span>Help & support</span>
               </div>
-              <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+              <ExternalLink className="w-3 h-3 text-slate-400" />
             </button>
 
             <button
               onClick={() => handleNavClick('settings')}
-              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] transition-colors ${
+              className={`w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-[12.5px] transition-colors ${
                 activeTab === 'settings' 
-                  ? 'bg-[#eaf2ec] text-[#1b3a2a] font-semibold' 
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-[#f2f5f2]'
+                  ? 'bg-[#162544] text-white font-semibold' 
+                  : 'text-slate-600 hover:text-[#162544] hover:bg-slate-50'
               }`}
             >
-              <Settings className={`w-4 h-4 ${activeTab === 'settings' ? 'text-[#2e6848]' : 'text-slate-400'}`} />
+              <Settings className={`w-3.5 h-3.5 ${activeTab === 'settings' ? 'text-[#e31b23]' : 'text-slate-400'}`} />
               <span>Workspace settings</span>
             </button>
           </div>
 
           {/* Acceleron Solutions Brand Tagline */}
-          <div className="border-l-2 border-[#162544] pl-2.5 py-0.5 mt-2">
-            <p className="text-[12px] font-bold text-[#162544] tracking-tight leading-tight">
+          <div className="border-l-2 border-[#e31b23] pl-2 py-0.5">
+            <p className="text-[11px] font-bold text-[#162544] tracking-tight leading-tight">
               Acceleron Solutions
             </p>
-            <p className="text-[9.5px] text-slate-400 leading-tight mt-0.5">
+            <p className="text-[9px] text-slate-400 leading-tight mt-0.5">
               Connected. Empowered. Together.
             </p>
           </div>

@@ -1,66 +1,56 @@
-# MyAcceleron — Connected Workspace Portal
+# Acceleron One — Connected Workspace Portal
 
-A modern, responsive frontend portal built with **React 19**, **TypeScript**, **Tailwind CSS v4**, and **Vite**, replicating the MyAcceleron enterprise dashboard design.
+A compact enterprise workspace dashboard designed with the **Acceleron Solutions** brand identity (**Navy `#162544`**, **Red `#E31B23`**, and **Cool Slate `#F6F8FB`**).
 
----
-
-## 🌟 Key Features
-
-1. **Pixel-Perfect Mockup Match**:
-   - Left sidebar with real-time counters, active indicators, and brand tagline.
-   - Hero banner with personalized welcome ("*Welcome back, Arindam ✦*"), gateway tagline, and orbiting application badges.
-   - Applications section with 5 core apps (*Zoho CRM*, *Zoho Books*, *Darwinbox HRMS*, *Acceleron Champ*, *Acceleronplus*) and *The Acceleron Advantage* callout card.
-   - Interactive bottom productivity banner ("*A little more you. A lot more productive.*").
-
-2. **Zero-Login Local Storage Engine**:
-   - Users can use the portal immediately without logging in.
-   - **Favourites**: Star or unstar any application; instantly reflected in counters and the Favourites view.
-   - **Recently Opened**: Automatically logs click timestamps and access counts, showing recents with relative timestamps (e.g. "Opened 12m ago • 14 opens"). Option to clear history anytime.
-   - **Customizable Links**: All application URLs are configurable in the **Workspace Settings** or directly via the hover gear icon on each card. Changes persist in `localStorage`.
-
-3. **SSO (Single Sign-On) Ready Architecture**:
-   - Ready for transition to enterprise identity providers (Microsoft Entra ID / Azure AD, Okta, Google Workspace, Ping Identity).
-   - Includes an **SSO Architecture & Blueprint** preview in Settings showing group-based RBAC mapping and cloud sync.
-
-4. **Keyboard & Search UX**:
-   - Quick search with instant filtering across title, description, category, and tags.
-   - Press <kbd>/</kbd> anywhere to immediately jump to and focus the search bar.
-   - Category filtering dropdown (*Sales & Customers*, *Finance & Accounting*, *People & Culture*, *Rewards & Recognition*, *Projects & Delivery*).
+Repository: [https://github.com/AcceleronSolutionsGit/AcceleronOne.git](https://github.com/AcceleronSolutionsGit/AcceleronOne.git)
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Key Features
 
-### 1. Install Dependencies
+1. **Brand Identity & Compact Design**:
+   - Features the uploaded **Acceleron Solutions** logo and custom favicon derivation.
+   - Themed with the official brand color palette: Acceleron Navy (`#162544`) and accent red (`#E31B23`).
+   - Compact density: streamlined cards, hero banner, and sidebar designed for high information density.
+
+2. **Hardcoded URLs**:
+   - URLs cannot be modified from the frontend UI.
+   - All links are centrally maintained in [`src/data/appsData.ts`](./src/data/appsData.ts) and can be updated directly with production URLs when provided.
+
+3. **Zero-Login Local Storage Engine**:
+   - **Favourites**: Star or unstar any application; instantly reflected in badge counters and the Favourites tab filter.
+   - **Recently Opened**: Tracks launch activity per browser with relative timestamps and access counters.
+
+4. **SSO (Single Sign-On) Ready**:
+   - Configured with an architectural blueprint for upcoming corporate SSO migration (SAML 2.0 / OIDC / Azure AD / Okta).
+
+5. **Configured for Vercel Deployment**:
+   - Pre-configured with [`vercel.json`](./vercel.json) for Vite Single Page Application routing and caching.
+
+---
+
+## 🛠️ Local Development
+
 ```bash
+# Install dependencies
 npm install
-```
 
-### 2. Start Development Server
-```bash
+# Start development server
 npm run dev
-```
-The app will be accessible at `http://127.0.0.1:5173/`.
 
-### 3. Production Build
-```bash
+# Build for production
 npm run build
 ```
 
 ---
 
-## 🎨 Brand Assets & Colors
+## ☁️ Deployment to Vercel
 
-- **Primary Brand Navy**: `#162544` / `#1A2B4C`
-- **Brand Accent Red**: `#E31B23` (from Acceleron chevron logo)
-- **Sage / Emerald Background**: `#F0F5F2` – `#E4EEE7`
-- **Active Navigation Green**: `#EAF2EC` with dot `#2E6848`
-- **Typography**: Plus Jakarta Sans & JetBrains Mono
-
----
-
-## ⚙️ Configuring URLs
-
-Since application URLs will be provided later, you can configure them in two ways:
-1. **Via UI**: Click **Workspace settings** in the sidebar (or click the settings gear on any card) and enter your custom URLs.
-2. **Via Code**: Edit `src/data/appsData.ts` and update the `defaultUrl` property for any app.
+1. Log in to [Vercel](https://vercel.com).
+2. Click **Add New... > Project**.
+3. Import the repository: `AcceleronSolutionsGit/AcceleronOne`.
+4. The build settings are auto-detected via `vercel.json`:
+   - **Framework Preset**: Vite
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+5. Click **Deploy**.

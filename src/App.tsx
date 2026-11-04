@@ -9,7 +9,6 @@ import { Footer } from './components/Footer';
 import { RecentlyOpenedView } from './components/RecentlyOpenedView';
 import { SettingsView } from './components/SettingsView';
 import { HelpModal } from './components/HelpModal';
-import { UrlEditModal } from './components/UrlEditModal';
 
 const MainLayout: React.FC = () => {
   const { activeTab } = useApp();
@@ -24,7 +23,7 @@ const MainLayout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8faf9] flex">
+    <div className="min-h-screen bg-[#f6f8fb] flex text-slate-800">
       {/* Sidebar */}
       <Sidebar 
         mobileOpen={mobileSidebarOpen} 
@@ -41,9 +40,9 @@ const MainLayout: React.FC = () => {
         />
 
         {/* Dynamic Body Content */}
-        <main className="flex-1 px-4 sm:px-8 lg:px-12 py-6 sm:py-8 max-w-7xl w-full mx-auto">
+        <main className="flex-1 px-4 sm:px-6 lg:px-8 py-5 max-w-6xl w-full mx-auto">
           {activeTab === 'overview' && (
-            <div className="space-y-6">
+            <div className="space-y-4">
               <HeroBanner onScrollToApps={handleScrollToApps} />
               <ApplicationsSection />
               <BottomBanner />
@@ -52,28 +51,28 @@ const MainLayout: React.FC = () => {
           )}
 
           {activeTab === 'all' && (
-            <div className="space-y-6">
+            <div className="space-y-4">
               <ApplicationsSection />
               <Footer />
             </div>
           )}
 
           {activeTab === 'favourites' && (
-            <div className="space-y-6">
+            <div className="space-y-4">
               <ApplicationsSection />
               <Footer />
             </div>
           )}
 
           {activeTab === 'recent' && (
-            <div className="space-y-6">
+            <div className="space-y-4">
               <RecentlyOpenedView />
               <Footer />
             </div>
           )}
 
           {activeTab === 'settings' && (
-            <div className="space-y-6">
+            <div className="space-y-4">
               <SettingsView />
               <Footer />
             </div>
@@ -86,7 +85,6 @@ const MainLayout: React.FC = () => {
         isOpen={helpModalOpen} 
         onClose={() => setHelpModalOpen(false)} 
       />
-      <UrlEditModal />
     </div>
   );
 };

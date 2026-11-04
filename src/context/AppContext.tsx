@@ -6,14 +6,12 @@ interface AppContextType {
   apps: AppItem[];
   favourites: string[];
   recentApps: RecentlyOpenedEntry[];
-  appUrls: Record<string, string>;
   activeTab: ViewTab;
   searchQuery: string;
   selectedCategory: string;
   activeFilterTab: 'all' | 'favourites';
   userProfile: UserProfile;
   ssoEnabled: boolean;
-  editingAppUrl: AppItem | null;
   
   // Actions
   setActiveTab: (tab: ViewTab) => void;
@@ -24,28 +22,23 @@ interface AppContextType {
   isFavourite: (appId: string) => boolean;
   launchApp: (app: AppItem) => void;
   clearRecentApps: () => void;
-  updateAppUrl: (appId: string, url: string) => void;
-  resetAllUrls: () => void;
-  getAppUrl: (app: AppItem) => string;
   updateUserProfile: (profile: Partial<UserProfile>) => void;
   toggleSsoMode: () => void;
-  setEditingAppUrl: (app: AppItem | null) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 const STORAGE_KEYS = {
-  FAVOURITES: 'myacceleron_favourites',
-  RECENTS: 'myacceleron_recent_apps',
-  URLS: 'myacceleron_custom_urls',
-  PROFILE: 'myacceleron_user_profile',
-  SSO: 'myacceleron_sso_preview',
+  FAVOURITES: 'acceleron_favourites',
+  RECENTS: 'acceleron_recent_apps',
+  PROFILE: 'acceleron_user_profile',
+  SSO: 'acceleron_sso_preview',
 };
 
 const DEFAULT_USER: UserProfile = {
   name: 'Arindam',
   email: 'arindam@acceleron.com',
-  role: 'Product & Engineering',
+  role: 'Team Member',
   isGuest: true,
   avatarLetter: 'A',
 };
@@ -55,9 +48,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All categories');
   const [activeFilterTab, setActiveFilterTab] = useState<'all' | 'favourites'>('all');
-  const [editingAppUrl, setEditingAppUrl] = useState<AppItem | null>(null);
 
-  // Favourites state from localStorage
+  // Favourites in browser localStorage
   const [favourites, setFavourites] = useState<string[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.FAVOURITES);
@@ -67,7 +59,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   });
 
-  // Recently opened apps from localStorage
+  // Recently opened apps in browser localStorage
   const [recentApps, setRecentApps] = useState<RecentlyOpenedEntry[]>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.RECENTS);
@@ -81,17 +73,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   });
 
-  // Custom URLs mapped by appId
-  const [appUrls, setAppUrls] = useState<Record<string, string>>(() => {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEYS.URLS);
-      return saved ? JSON.parse(saved) : {};
-    } catch {
-      return {};
-    }
-  });
-
-  // User profile
+  // User profile in browser localStorage
   const [userProfile, setUserProfile] = useState<UserProfile>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.PROFILE);
@@ -101,7 +83,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   });
 
-  // SSO mode preview
+  // SSO preview mode
   const [ssoEnabled, setSsoEnabled] = useState<boolean>(() => {
     try {
       return localStorage.getItem(STORAGE_KEYS.SSO) === 'true';
@@ -128,21 +110,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, [recentApps]);
 
-  // Persist custom URLs
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEYS.URLS, JSON.stringify(appUrls));
-    } catch (e) {
-      console.warn('Failed to save URLs to localStorage', e);
-    }
-  }, [appUrls]);
-
   // Persist profile
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(userProfile));
     } catch (e) {
-      console.warn('Failed to save user profile to localStorage', e);
+      console.warn('Failed to save profile to localStorage', e);
     }
   }, [userProfile]);
 
@@ -163,14 +136,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const isFavourite = (appId: string) => favourites.includes(appId);
 
-  const getAppUrl = (app: AppItem) => {
-    return appUrls[app.id] && appUrls[app.id].trim() !== '' ? appUrls[app.id] : app.defaultUrl;
-  };
-
   const launchApp = (app: AppItem) => {
-    const targetUrl = getAppUrl(app);
-
-    // Record in recently opened
+    // Record into browser localStorage
     setRecentApps(prev => {
       const existing = prev.find(item => item.appId === app.id);
       const now = Date.now();
@@ -184,27 +151,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
     });
 
-    // Open link in new tab
-    if (targetUrl && targetUrl !== '#') {
-      window.open(targetUrl, '_blank', 'noopener,noreferrer');
+    // Directly open hardcoded URL in new tab
+    if (app.url && app.url !== '#') {
+      window.open(app.url, '_blank', 'noopener,noreferrer');
     }
   };
 
   const clearRecentApps = () => {
     setRecentApps([]);
     localStorage.removeItem(STORAGE_KEYS.RECENTS);
-  };
-
-  const updateAppUrl = (appId: string, url: string) => {
-    setAppUrls(prev => ({
-      ...prev,
-      [appId]: url.trim()
-    }));
-  };
-
-  const resetAllUrls = () => {
-    setAppUrls({});
-    localStorage.removeItem(STORAGE_KEYS.URLS);
   };
 
   const updateUserProfile = (profile: Partial<UserProfile>) => {
@@ -227,14 +182,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         apps: INITIAL_APPS,
         favourites,
         recentApps,
-        appUrls,
         activeTab,
         searchQuery,
         selectedCategory,
         activeFilterTab,
         userProfile,
         ssoEnabled,
-        editingAppUrl,
         setActiveTab,
         setSearchQuery,
         setSelectedCategory,
@@ -243,12 +196,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         isFavourite,
         launchApp,
         clearRecentApps,
-        updateAppUrl,
-        resetAllUrls,
-        getAppUrl,
         updateUserProfile,
         toggleSsoMode,
-        setEditingAppUrl,
       }}
     >
       {children}
