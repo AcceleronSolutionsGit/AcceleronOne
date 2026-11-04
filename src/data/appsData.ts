@@ -30,7 +30,7 @@ export const INITIAL_APPS: AppItem[] = [
     name: 'Darwinbox HRMS',
     category: 'PEOPLE & CULTURE',
     description: 'Your people essentials, simplified. Attendance, leave and everything HR.',
-    url: 'https://darwinbox.in', // Replace with production URL when provided
+    url: 'https://onegainwellonehr.darwinbox.in/',
     tag: 'HR platform',
     iconType: 'darwinbox',
     accentColor: '#8b5cf6',
@@ -40,7 +40,7 @@ export const INITIAL_APPS: AppItem[] = [
     name: 'Acceleron Champ',
     category: 'REWARDS & RECOGNITION',
     description: 'Celebrate the people who go further. Recognise great work, every day.',
-    url: 'https://champ.acceleron.com', // Replace with production URL when provided
+    url: 'https://acceleron-champ-server.vercel.app/login',
     tag: 'Made for Acceleron',
     iconType: 'champ',
     accentColor: '#e31b23',
@@ -50,7 +50,7 @@ export const INITIAL_APPS: AppItem[] = [
     name: 'Acceleronplus',
     category: 'PROJECTS & DELIVERY',
     description: 'Bring teams and projects together. Plan, collaborate and deliver with clarity.',
-    url: 'https://plus.acceleron.com', // Replace with production URL when provided
+    url: 'https://apps.acceleronsolutions.io/acceleron-plus/login',
     tag: 'Made for Acceleron',
     iconType: 'plus',
     accentColor: '#162544',
