@@ -1,5 +1,5 @@
-import React from 'react';
-import { Star, ExternalLink } from 'lucide-react';
+import React, { useState } from 'react';
+import { Star, ExternalLink, Copy, Check } from 'lucide-react';
 import type { AppItem } from '../types';
 import { AppIcon } from './AppIcons';
 import { useApp } from '../context/AppContext';
@@ -15,28 +15,55 @@ export const AppCard: React.FC<AppCardProps> = ({ app }) => {
     launchApp 
   } = useApp();
 
+  const [copied, setCopied] = useState(false);
   const favourited = isFavourite(app.id);
 
   const handleCardClick = (e: React.MouseEvent) => {
-    // If user clicked the star button, don't trigger launch
     const target = e.target as HTMLElement;
-    if (target.closest('button[data-action="favourite"]')) {
+    if (target.closest('button[data-action]')) {
       return;
     }
     launchApp(app);
   };
 
+  const handleCopyLink = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(app.url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  // Extract clean hostname for display
+  const getHostname = (urlStr: string) => {
+    try {
+      const parsed = new URL(urlStr);
+      return parsed.hostname;
+    } catch {
+      return urlStr;
+    }
+  };
+
   return (
     <div 
       onClick={handleCardClick}
-      className="group relative rounded-xl bg-white border border-[#e2e8f0] hover:border-[#162544]/30 p-4 sm:p-5 flex flex-col justify-between shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer"
+      className="group relative rounded-xl bg-white border border-slate-200/90 hover:border-[#162544]/30 hover:shadow-md transition-all duration-200 p-4 sm:p-5 flex flex-col justify-between cursor-pointer"
     >
-      {/* Top Bar: Icon and Star Toggle */}
       <div>
-        <div className="flex items-start justify-between">
-          <AppIcon type={app.iconType} />
-          
-          {/* Star button */}
+        {/* Top Header: Brand Icon, Category Badge & Favorite Star */}
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <AppIcon type={app.iconType} />
+            <div>
+              <span className="text-[10px] font-bold tracking-wider uppercase text-slate-400 group-hover:text-[#162544] transition-colors">
+                {app.category}
+              </span>
+              <h3 className="text-[15.5px] font-bold text-slate-900 tracking-tight leading-tight group-hover:text-[#162544] transition-colors">
+                {app.name}
+              </h3>
+            </div>
+          </div>
+
+          {/* Star favorite toggle */}
           <button
             type="button"
             data-action="favourite"
@@ -44,8 +71,8 @@ export const AppCard: React.FC<AppCardProps> = ({ app }) => {
               e.stopPropagation();
               toggleFavourite(app.id);
             }}
-            title={favourited ? 'Remove from favourites' : 'Add to favourites'}
-            className="p-1 rounded-lg hover:bg-slate-100 transition-colors"
+            title={favourited ? 'Remove from favourites' : 'Star as favourite'}
+            className="p-1 rounded-md text-slate-300 hover:text-amber-500 hover:bg-slate-50 transition-colors"
           >
             <Star 
               className={`w-4 h-4 transition-transform active:scale-125 ${
@@ -57,45 +84,54 @@ export const AppCard: React.FC<AppCardProps> = ({ app }) => {
           </button>
         </div>
 
-        {/* Category Tag */}
-        <div className="mt-3.5 mb-1">
-          <span className="text-[9.5px] font-bold tracking-[0.16em] uppercase text-slate-400 group-hover:text-[#162544] transition-colors">
-            {app.category}
-          </span>
-        </div>
-
-        {/* Title */}
-        <h3 className="text-[15.5px] font-bold text-slate-900 tracking-tight group-hover:text-[#162544] transition-colors">
-          {app.name}
-        </h3>
-
         {/* Description */}
-        <p className="text-[12px] text-slate-500 font-normal leading-relaxed mt-1 line-clamp-2">
+        <p className="text-[12.5px] text-slate-500 font-normal leading-relaxed mt-3">
           {app.description}
         </p>
+
+        {/* Destination Hostname */}
+        <div className="mt-2.5">
+          <span className="inline-flex items-center gap-1 text-[11px] font-mono text-slate-400 bg-slate-50 px-2 py-0.5 rounded border border-slate-100">
+            {getHostname(app.url)}
+          </span>
+        </div>
       </div>
 
-      {/* Card Footer: Metadata and Action */}
+      {/* Footer: Tag & Actions */}
       <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11.5px]">
-        {/* Left bullet tag */}
-        <span className="text-slate-400 font-normal flex items-center gap-1.5">
-          <span className="w-1 h-1 rounded-full bg-slate-300" />
+        {/* Tag pill */}
+        <span className="text-[11px] font-medium text-slate-500 flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-[#162544] transition-colors" />
           {app.tag}
         </span>
 
-        {/* Right launch link */}
-        <button
-          type="button"
-          data-action="launch"
-          onClick={(e) => {
-            e.stopPropagation();
-            launchApp(app);
-          }}
-          className="inline-flex items-center gap-1 font-semibold text-slate-700 group-hover:text-[#162544] transition-colors text-[11.5px]"
-        >
-          <span>Open application</span>
-          <ExternalLink className="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </button>
+        {/* Action Buttons */}
+        <div className="flex items-center gap-1">
+          {/* Copy Link Button */}
+          <button
+            type="button"
+            data-action="copy"
+            onClick={handleCopyLink}
+            title={copied ? 'Link copied!' : 'Copy link'}
+            className="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded transition-colors"
+          >
+            {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+          </button>
+
+          {/* Launch Link */}
+          <button
+            type="button"
+            data-action="launch"
+            onClick={(e) => {
+              e.stopPropagation();
+              launchApp(app);
+            }}
+            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-slate-50 group-hover:bg-[#162544] text-slate-700 group-hover:text-white font-semibold transition-all text-[11.5px]"
+          >
+            <span>Open</span>
+            <ExternalLink className="w-3 h-3 transition-transform group-hover:translate-x-0.5" />
+          </button>
+        </div>
       </div>
     </div>
   );

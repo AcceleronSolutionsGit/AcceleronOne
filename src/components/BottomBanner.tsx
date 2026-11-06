@@ -1,37 +1,28 @@
 import React from 'react';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import { useApp } from '../context/AppContext';
+import { Keyboard, Star, ExternalLink } from 'lucide-react';
 
 export const BottomBanner: React.FC = () => {
-  const { setActiveFilterTab } = useApp();
-
   return (
-    <div className="rounded-xl bg-white border border-[#e2e8f0] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs mt-4">
-      <div className="flex items-start sm:items-center gap-3">
-        {/* Sparkle Icon Container */}
-        <div className="w-8 h-8 rounded-lg bg-[#edf2f8] border border-[#d6e0ef] flex items-center justify-center text-[#162544] shrink-0">
-          <Sparkles className="w-4 h-4 text-[#e31b23]" />
-        </div>
-
-        {/* Text */}
-        <div>
-          <h4 className="text-[13.5px] font-bold text-slate-800">
-            A little more you. A lot more productive.
-          </h4>
-          <p className="text-[12px] text-slate-500 mt-0.5">
-            Star the applications you use most. Your favourites are always a click away.
-          </p>
-        </div>
+    <div className="rounded-xl bg-white border border-slate-200/90 p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[12px] text-slate-500 shadow-2xs mt-4">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+        <span className="font-semibold text-slate-700 flex items-center gap-1.5">
+          <Keyboard className="w-3.5 h-3.5 text-[#162544]" />
+          Keyboard Shortcuts:
+        </span>
+        <span className="flex items-center gap-1">
+          Press <kbd className="px-1.5 py-0.2 bg-slate-100 border border-slate-200 rounded text-[11px] font-mono text-slate-700 shadow-2xs">/</kbd> to jump to search
+        </span>
+        <span className="text-slate-300 hidden sm:inline">•</span>
+        <span className="flex items-center gap-1">
+          <Star className="w-3 h-3 text-amber-500 fill-amber-500" />
+          Star apps to pin to your Favourites
+        </span>
       </div>
 
-      {/* Action */}
-      <button
-        onClick={() => setActiveFilterTab('favourites')}
-        className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[#162544] hover:text-[#0f1b33] self-end sm:self-center shrink-0 group transition-colors"
-      >
-        <span>Make it yours</span>
-        <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1 text-[#e31b23]" />
-      </button>
+      <div className="flex items-center gap-1 text-[11.5px] text-slate-400 self-end sm:self-auto shrink-0 font-medium">
+        <ExternalLink className="w-3 h-3" />
+        <span>Direct Single-Click Access</span>
+      </div>
     </div>
   );
 };

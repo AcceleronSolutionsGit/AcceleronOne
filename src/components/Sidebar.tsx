@@ -4,8 +4,8 @@ import {
   LayoutGrid, 
   Star, 
   Clock, 
-  Sparkles,
-  X
+  X,
+  CheckCircle2
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { AcceleronLogoImage } from './AppIcons';
@@ -67,15 +67,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
       )}
 
       <aside className={`
-        fixed lg:sticky top-0 left-0 z-50 h-screen w-60 bg-white border-r border-[#e2e8f0] flex flex-col justify-between p-4 transition-transform duration-200 ease-in-out shrink-0 select-none
+        fixed lg:sticky top-0 left-0 z-50 h-screen w-60 bg-white border-r border-slate-200/90 flex flex-col justify-between p-4 transition-transform duration-200 ease-in-out shrink-0 select-none
         ${mobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full lg:translate-x-0'}
       `}>
         {/* Top: Logo & Brand */}
         <div>
-          <div className="flex items-center justify-between pb-5 border-b border-slate-100">
+          <div className="flex items-center justify-between pb-4 border-b border-slate-100">
             <div className="flex flex-col">
               <AcceleronLogoImage height={32} />
-              <span className="text-[9px] uppercase tracking-[0.16em] text-slate-400 font-semibold mt-1.5 pl-0.5">
+              <span className="text-[9.5px] uppercase tracking-[0.16em] text-slate-400 font-semibold mt-1.5 pl-0.5">
                 Connected Workspace
               </span>
             </div>
@@ -138,24 +138,24 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
 
         {/* Bottom Content */}
         <div className="space-y-3 pt-3">
-          {/* Motivation Box */}
-          <div className="relative rounded-xl bg-gradient-to-br from-[#162544] to-[#1f335c] text-white p-3 overflow-hidden shadow-xs">
-            <div className="pr-4 relative z-10">
-              <p className="text-[11px] text-slate-300 font-normal leading-tight">One team.</p>
-              <p className="text-[12px] text-white font-bold mt-0.5 leading-tight flex items-center gap-1">
-                <span>Many possibilities.</span>
-              </p>
+          {/* Subtle Device Storage Status */}
+          <div className="rounded-xl bg-slate-50 border border-slate-200/80 p-3 text-[11px] text-slate-500">
+            <div className="flex items-center gap-1.5 font-semibold text-slate-700 mb-1">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+              <span>Local Storage Active</span>
             </div>
-            <Sparkles className="w-3.5 h-3.5 text-[#e31b23] absolute top-2.5 right-2.5" />
+            <p className="text-[10.5px] text-slate-500 leading-snug">
+              Favourites and recents saved locally on this browser.
+            </p>
           </div>
 
           {/* Acceleron Solutions Brand Tagline */}
-          <div className="border-l-2 border-[#e31b23] pl-2 py-0.5">
+          <div className="border-l-2 border-[#162544] pl-2 py-0.5">
             <p className="text-[11px] font-bold text-[#162544] tracking-tight leading-tight">
               Acceleron Solutions
             </p>
             <p className="text-[9px] text-slate-400 leading-tight mt-0.5">
-              Connected. Empowered. Together.
+              Empowering Teams & Operations
             </p>
           </div>
         </div>

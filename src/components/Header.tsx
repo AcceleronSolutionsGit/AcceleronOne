@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu } from 'lucide-react';
+import { Menu, Layers } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 interface HeaderProps {
@@ -21,18 +21,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileSidebar }) => {
       case 'overview':
         return 'Overview';
       case 'all':
-        return 'All applications';
+        return 'All Applications';
       case 'favourites':
         return 'Favourites';
       case 'recent':
-        return 'Recently opened';
+        return 'Recently Opened';
       default:
         return 'Overview';
     }
   };
 
   return (
-    <header className="sticky top-0 z-30 bg-[#f6f8fb]/90 backdrop-blur-md border-b border-[#e2e8f0] px-5 py-3 flex items-center justify-between">
+    <header className="sticky top-0 z-30 bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-5 py-3 flex items-center justify-between">
       {/* Left: Mobile Toggle & Breadcrumbs */}
       <div className="flex items-center gap-3">
         <button
@@ -44,15 +44,24 @@ export const Header: React.FC<HeaderProps> = ({ onOpenMobileSidebar }) => {
         </button>
 
         <div className="flex items-center gap-2 text-[13px]">
-          <span className="text-slate-400 font-normal">Workspace</span>
+          <span className="flex items-center gap-1.5 text-slate-400 font-medium">
+            <Layers className="w-3.5 h-3.5 text-slate-400" />
+            <span>Workspace</span>
+          </span>
           <span className="text-slate-300">/</span>
           <span className="text-[#162544] font-semibold">{getBreadcrumbTitle()}</span>
         </div>
       </div>
 
-      {/* Right: Date */}
-      <div className="text-[12px] text-slate-500 font-medium">
-        {todayFormatted}
+      {/* Right: Operational Status & Date */}
+      <div className="flex items-center gap-4 text-[12px]">
+        <div className="hidden sm:flex items-center gap-1.5 text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200/80 font-medium text-[11px]">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          <span>Operational</span>
+        </div>
+        <div className="text-slate-500 font-medium">
+          {todayFormatted}
+        </div>
       </div>
     </header>
   );
